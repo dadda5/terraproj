@@ -3,7 +3,20 @@ resource "aws_instance" "script" {
  instance_type = var.instance_type
  }
 
-resource "aws_ s3_bucker" "scriptbuccket"{
+resource "aws_s3_bucket" "scriptbuccket"{
  bucket = var.bucket_name
+ tags = {
+  name = var.project_name
+  }
+}
 
+resource "aws_lb" "lb" {
+ name = "script_lb"
+ internal = false
+ load_balancer_type = "application"
+ security group = [var.secrity_group_id]
+ subnets = var.subnet_ids
+ tags = {
+ name = var.project_name
+ }
 }
